@@ -1,0 +1,67 @@
+.logo {
+  width: 80px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 15px ;
+}
+.Nav-items > ul {
+  display: flex;
+  list-style-type: none;
+  padding-top: 13px;
+  font-size: 18px;
+}
+.Nav-items > ul > li {
+  padding-right: 25px;
+}
+.resto-cards {
+
+  width: 253px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  margin-top: 12px;
+}
+.resto-cards:hover {
+  border: 1px solid black;
+  cursor: pointer;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+.res-img {
+  width: 253px;
+  height: 170px;
+  object-fit: cover;
+}
+.res-name {
+  margin: 0px;
+}
+.res-name1 {
+  margin: 10px 0px;
+}
+
+.res-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.login{
+  padding: 0px 15px;
+  cursor: pointer;
+}
+
+.Filter{
+  display: flex;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.Filter-btn{
+  margin: 0px 10px;
+}
