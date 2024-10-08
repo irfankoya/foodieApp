@@ -1,5 +1,6 @@
 import Restocards from "./Restocards";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   let [restaurent, setRestaurent] = useState([]);
@@ -7,7 +8,7 @@ const Body = () => {
   let [searchText, setsearchText] = useState([]);
 
   useEffect(() => {
-    fetchData();
+fetchData();
   }, []);
 
   const fetchData = async () => {
@@ -59,15 +60,16 @@ const Body = () => {
             const filterRating = restaurent.filter(
               (res) => res.info.avgRating > 4.3
             );
-            setRestaurent(filterRating);
-          }}
+            setfilteredRestaurent(filterRating);
+          }} 
         >
           Top Rated restaurent
         </button>
       </div>
       <div className="res-cards">
         {filteredRestaurent.map((restaurent) => (
-          <Restocards key={restaurent.info.id} resData={restaurent} />
+          <Link key={restaurent.info.id}
+          to={"/restaurants/"+restaurent.info.id}><Restocards resData={restaurent} /></Link>
         ))}
       </div>
     </div> //In the above map is done to iterate through all the objects in the list and print it instead of for also we must keep key inorder to keep unique id for each element
