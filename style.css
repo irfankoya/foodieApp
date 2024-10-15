@@ -65,3 +65,7 @@
 .Filter-btn{
   margin: 0px 10px;
 }
+.user-card{
+  border: 2px solid black;
+  padding: 10px;
+}

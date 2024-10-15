@@ -6,6 +6,7 @@ const Restocards = ({ resData }) => {
     name,
     cuisines,
     avgRating,
+    areaName,
     sla: { deliveryTime },
   } = resData?.info; // Destructuring our code in order to make it clean or else below we have to give (resData.info.name etc)
   return (
@@ -14,7 +15,9 @@ const Restocards = ({ resData }) => {
       <h4 className="res-name">{name}</h4>
       <h5 className="res-name1">{cuisines.join(", ")}</h5>
       <h5 className="res-name1">{avgRating}</h5>
-      <h5 className="res-name1">{deliveryTime}</h5>
+      <h5 className="res-name1">{areaName}</h5>
+
+      <h5 className="res-name1">{deliveryTime+ " mins"}</h5>
     </div> // The above is the destructured value
   );
 };

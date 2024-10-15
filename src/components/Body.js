@@ -1,35 +1,30 @@
-import Restocards from "./Restocards";
-import { useEffect, useState } from "react";
+// Body.js
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Restocards from "./Restocards";
+import useFetchRestaurants from "../config/useRestaurant";
 
 const Body = () => {
-  let [restaurent, setRestaurent] = useState([]);
-  let [filteredRestaurent, setfilteredRestaurent] = useState([]);
-  let [searchText, setsearchText] = useState([]);
+  let [searchText, setSearchText] = useState("");
 
-  useEffect(() => {
-fetchData();
-  }, []);
+  // Using the custom hook
+  const { restaurants, filteredRestaurants, setFilteredRestaurants, loading } = useFetchRestaurants(
+    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=8.584418399999999&lng=76.85033&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+  );
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=8.584418399999999&lng=76.85033&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+  const handleSearch = () => {
+    let filtered = restaurants.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
     );
-
-    const json = await data.json();
-    console.log(
-      json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants
-    );
-    // Parse JSON response
-    setRestaurent(
-      json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants
-    );
-    setfilteredRestaurent(
-      json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants
-    );
+    setFilteredRestaurants(filtered);
   };
-  console.log("Body");
-  return restaurent.length == 0 ? (
+
+  const filterTopRated = () => {
+    const topRated = restaurants.filter((res) => res.info.avgRating > 4.3);
+    setFilteredRestaurants(topRated);
+  };
+
+  return loading ? (
     <h1>Loading...</h1>
   ) : (
     <div className="body">
@@ -39,41 +34,24 @@ fetchData();
             type="text"
             className="search-bar"
             value={searchText}
-            onChange={(e) => setsearchText(e.target.value)}
+            onChange={(e) => setSearchText(e.target.value)}
           />
-          <button
-            onClick={() => {
-              let filteredRestaurent = restaurent.filter((res) =>
-                res.info.name.toLowerCase().includes(searchText.toLowerCase())
-              );
-              setfilteredRestaurent(filteredRestaurent);
-            }}
-          >
-            Search
-          </button>
+          <button onClick={handleSearch}>Search</button>
         </div>
 
-        <button
-          className="Filter-btn"
-          onClick={() => {
-            //filter logic here
-            const filterRating = restaurent.filter(
-              (res) => res.info.avgRating > 4.3
-            );
-            setfilteredRestaurent(filterRating);
-          }} 
-        >
-          Top Rated restaurent
+        <button className="Filter-btn" onClick={filterTopRated}>
+          Top Rated Restaurants
         </button>
       </div>
       <div className="res-cards">
-        {filteredRestaurent.map((restaurent) => (
-          <Link key={restaurent.info.id}
-          to={"/restaurants/"+restaurent.info.id}><Restocards resData={restaurent} /></Link>
+        {filteredRestaurants.map((restaurant) => (
+          <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
+            <Restocards resData={restaurant} />
+          </Link>
         ))}
       </div>
-    </div> //In the above map is done to iterate through all the objects in the list and print it instead of for also we must keep key inorder to keep unique id for each element
-  ); //whenever doing map in this sitation we should keep "key" try to use key instead of index
+    </div>
+  );
 };
 
 export default Body;
